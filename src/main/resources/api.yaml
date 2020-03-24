@@ -1,0 +1,177 @@
+swagger: '2.0'
+
+info:
+  version: '0.1'
+  title: Region Manager API
+
+  description: |
+    Region Manager service is a dedicated component for managing information about regions.
+
+  contact:
+    name: Elena Tcheprasova
+    email: elenatchepr@gmail.com
+    url: http://github.com/helena128
+
+host: localhost:8000
+basePath: /regionmanager/1.0
+
+produces:
+  - application/json
+schemes:
+  - http
+  - https
+
+tags:
+  - name: "Regions"
+
+paths:
+
+  /regions:
+    get:
+      tags:
+        - "Regions"
+      summary: "Retrieves all regions."
+      operationId: "getRegions"
+      responses:
+        200:
+          description: "Successfully retrieved list of regions"
+          schema:
+            $ref: "#/definitions/OperationResultWithRegionList"
+        default:
+          $ref: "#/responses/Error"
+
+    post:
+      tags:
+        - "Regions"
+      summary: "Add information about a new region."
+      operationId: "addRegion"
+      parameters:
+        - $ref: "#/parameters/RegionInput"
+      responses:
+        201:
+          description: "Region was successfully created."
+          schema:
+            $ref: "#/definitions/Region"
+        #400:
+        #  description: "Invalid input on the client side."
+        #  schema:
+        #    $ref: "#/responses/BadRequest"
+        default:
+          $ref: "#/responses/Error"
+
+  /regions/{id}:
+    get:
+      tags:
+        - "Regions"
+      summary: "Retrieves region by ID."
+      operationId: "getRegionById"
+      parameters:
+        - $ref: "#/parameters/RegionId"
+      responses:
+        200:
+          description: "Region was successfully retrieved."
+          schema:
+            $ref: "#/definitions/Region"
+        default:
+          $ref: "#/responses/Error"
+
+    put:
+      tags:
+        - "Regions"
+      summary: "Updates region by ID."
+      operationId: "updateRegion"
+      parameters:
+        - $ref: "#/parameters/RegionId"
+        - $ref: "#/parameters/RegionInput"
+      responses:
+        200:
+          description: "Information about region was successfully updated."
+          schema:
+            $ref: "#/definitions/Region"
+        default:
+          $ref: '#/responses/Error'
+
+    delete:
+      tags:
+        - "Regions"
+      summary: "Removes region by ID."
+      operationId: "removeRegion"
+      parameters:
+        - $ref: '#/parameters/RegionId'
+      responses:
+        204:
+          description: "Information about region was successfully deleted."
+        default:
+          $ref: "#/responses/Error"
+
+definitions:
+  Region:
+    description: "Region."
+    allOf:
+      - $ref: "#/definitions/RegionInput"
+      - type: object
+        properties:
+          id:
+            description: "Unique region identifier."
+            type: string
+            format: uuid
+        required:
+          - id
+
+  RegionInput:
+    description: "Input information about region."
+    type: object
+    properties:
+      name:
+        description: "Name of the region."
+        type: string
+      shortName:
+        description: "Short name of the region."
+        type: string
+    required:
+      - name
+      - shortName
+
+  OperationResultWithRegionList:
+    type: array
+    items:
+      $ref: '#/definitions/Region'
+
+  ErrorModel:
+    properties:
+      message:
+        description: "Message about error."
+        type: string
+      statusCode:
+        description: "Optional field. May contain error code."
+        type: integer
+    required:
+      - message
+
+parameters:
+  RegionId:
+    name: id
+    in: path
+    required: true
+    type: string
+    description: "The ID of the region that should be retrieved/updated."
+
+  RegionInput:
+    name: regionInput
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/RegionInput"
+    description: "Input information of the region for create/update operation."
+
+
+responses:
+  Error:
+    description: "Information about error that happened."
+    schema:
+      $ref: "#/definitions/ErrorModel"
+
+  BadRequest:
+    description: "Client error happened."
+    schema:
+      $ref: "#/definitions/ErrorModel"
