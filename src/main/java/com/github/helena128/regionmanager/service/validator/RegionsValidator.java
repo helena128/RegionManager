@@ -19,4 +19,12 @@ public interface RegionsValidator {
      * @param id - ID of the region
      */
     void validateRegionExistence(Integer id);
+
+    /**
+     * Validates update of the region
+     *
+     * @param id - identificator of the region
+     * @param regionInput - update values
+     */
+    void validateRegionUpdate(Integer id, RegionInput regionInput);
 }

@@ -4,8 +4,6 @@ import io.swagger.model.OperationResultWithRegionList;
 import io.swagger.model.Region;
 import io.swagger.model.RegionInput;
 
-import java.util.List;
-
 /**
  * Handles business logic for actions with regions.
  */

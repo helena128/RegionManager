@@ -12,7 +12,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,7 +48,7 @@ public class RegionsServiceImpl implements RegionsService {
 
     @Override
     public void removeRegion(Integer id) {
-        // TODO: validation
+        regionsValidator.validateRegionExistence(id);
         mybatisMapper.removeById(id.longValue());
     }
 
