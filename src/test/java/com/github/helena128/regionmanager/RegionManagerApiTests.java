@@ -22,8 +22,7 @@ import static com.github.helena128.regionmanager.util.RegionTestUtil.buildRegion
 import static com.github.helena128.regionmanager.util.RegionTestUtil.buildRegionInput;
 import static com.github.helena128.regionmanager.util.TestRegionPropertiesHolder.*;
 import static junit.framework.TestCase.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -104,4 +103,41 @@ public class RegionManagerApiTests {
         assertTrue(resultList.stream().anyMatch(region -> regionEntityId2.equals(region.getId().longValue())));
     }
 
+    @Test
+    public void shouldUpdateRegion() throws Exception {
+        // create data
+        val regionEntity1 = buildRegionEntity(REGION_1_NAME, REGION_1_SHORTNAME);
+        val regionEntityId1 = mybatisMapper.addRegionEntity(regionEntity1);
+        val regionUpdateInput = buildRegionInput(REGION_2_NAME, REGION_2_SHORTNAME);
+
+        // send test request
+        val mockMvcResult = this.mockMvc.perform(
+                put(REGIONS_BY_ID_ENDPOINT, regionEntityId1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(regionUpdateInput))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+        val resultRegion = mapper.readValue(mockMvcResult.getResponse().getContentAsString(), Region.class);
+        assertEquals(REGION_2_NAME, resultRegion.getName());
+        assertEquals(REGION_2_SHORTNAME, resultRegion.getShortName());
+        assertEquals(regionEntityId1.longValue(), resultRegion.getId().longValue());
+    }
+
+    @Test
+    public void shouldRemoveById() throws Exception {
+        // create data
+        val regionEntity1 = buildRegionEntity(REGION_1_NAME, REGION_1_SHORTNAME);
+        val regionEntityId1 = mybatisMapper.addRegionEntity(regionEntity1);
+
+        // send test request
+        this.mockMvc.perform(
+                delete(REGIONS_BY_ID_ENDPOINT, regionEntityId1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        // check db
+        assertNull(mybatisMapper.findRegionEntityById(regionEntityId1));
+    }
 }

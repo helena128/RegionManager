@@ -37,4 +37,15 @@ public class RegionsApiImpl implements RegionsApi {
     public ResponseEntity<OperationResultWithRegionList> getRegions() {
         return new ResponseEntity<>(regionsService.findRegions(), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<Void> removeRegion(@PathVariable("id") Integer id) {
+        regionsService.removeRegion(id);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    }
+
+    @Override
+    public ResponseEntity<Region> updateRegion(@PathVariable("id") Integer id, @RequestBody RegionInput regionInput) {
+        return new ResponseEntity<>(regionsService.updateRegion(id, regionInput), HttpStatus.OK);
+    }
 }

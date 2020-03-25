@@ -38,7 +38,7 @@ public interface RegionsService {
      * Removes region by id
      * @param id - identifier of the region that should be removed
      */
-    void removeRegion(String id);
+    void removeRegion(Integer id);
 
     /**
      * Updates region
@@ -47,5 +47,5 @@ public interface RegionsService {
      * @param regionInput - update values
      * @return updated region
      */
-    Region updateRegion(String id, RegionInput regionInput);
+    Region updateRegion(Integer id, RegionInput regionInput);
 }

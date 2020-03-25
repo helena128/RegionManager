@@ -1,6 +1,7 @@
 package com.github.helena128.regionmanager.repository;
 
 import com.github.helena128.regionmanager.repository.model.RegionEntity;
+import io.swagger.model.RegionInput;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -23,6 +24,12 @@ public interface RegionsMybatisMapper {
 
     @Select("SELECT id as id, name as name, short_name as shortName FROM regions")
     List<RegionEntity> findAllRegions();
+
+    @Update("UPDATE regions SET name=#{input.name}, short_name=#{input.shortName} WHERE id=#{id}")
+    void updateRegionById(@Param("id") Long id, @Param("input") RegionInput input);
+
+    @Delete("DELETE FROM regions WHERE id=#{id}")
+    void removeById(Long id);
 
     @Delete("DELETE FROM regions")
     void removeAllRegions();

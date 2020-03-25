@@ -48,12 +48,14 @@ public class RegionsServiceImpl implements RegionsService {
     }
 
     @Override
-    public void removeRegion(String id) {
-
+    public void removeRegion(Integer id) {
+        // TODO: validation
+        mybatisMapper.removeById(id.longValue());
     }
 
     @Override
-    public Region updateRegion(String id, RegionInput regionInput) {
-        return null;
+    public Region updateRegion(Integer id, RegionInput regionInput) {
+        mybatisMapper.updateRegionById(id.longValue(), regionInput); // update
+        return mapstructMapper.mapRegionionEntityToRegion(mybatisMapper.findRegionEntityById(id.longValue()));
     }
 }
