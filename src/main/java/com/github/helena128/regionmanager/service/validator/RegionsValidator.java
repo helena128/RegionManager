@@ -13,4 +13,10 @@ public interface RegionsValidator {
      * @param regionInput - request to add region
      */
     void validateRegionCreation(RegionInput regionInput);
+
+    /**
+     * Validates that region exists
+     * @param id - ID of the region
+     */
+    void validateRegionExistence(String id);
 }

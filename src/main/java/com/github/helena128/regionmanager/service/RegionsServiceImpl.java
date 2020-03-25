@@ -8,12 +8,12 @@ import io.swagger.model.RegionInput;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.log4j.Log4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-@Log4j
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RegionsServiceImpl implements RegionsService {
@@ -24,10 +24,32 @@ public class RegionsServiceImpl implements RegionsService {
 
     @Override
     public Region addRegion(RegionInput regionInput) {
-        log.info("Called method to add region: " + regionInput.toString());
+        //log.info("Called method to add region: " + regionInput.toString());
         regionsValidator.validateRegionCreation(regionInput);
-        val addedRegionEntity = mybatisMapper.addRegionEntity(mapstructMapper.mapRegionInputToRegionEntity(regionInput));
-        log.info("Added region, id: " + addedRegionEntity.getId());
-        return mapstructMapper.mapRegionionEntityToRegion(addedRegionEntity);
+        val addedRegionEntityId = mybatisMapper.addRegionEntity(mapstructMapper.mapRegionInputToRegionEntity(regionInput));
+        //log.info("Added region, id: " + addedRegionEntity.getId());
+        return mapstructMapper.mapRegionionEntityToRegion(mybatisMapper.findRegionEntityById(addedRegionEntityId));
+    }
+
+    @Override
+    public Region findRegion(String id) {
+        regionsValidator.validateRegionExistence(id);
+        //return mapstructMapper.mapRegionionEntityToRegion(mybatisMapper.findRegionById(UUID.fromString(id)));
+        return null;
+    }
+
+    @Override
+    public List<Region> findRegions() {
+        return null;
+    }
+
+    @Override
+    public void removeRegion(String id) {
+
+    }
+
+    @Override
+    public Region updateRegion(String id, RegionInput regionInput) {
+        return null;
     }
 }

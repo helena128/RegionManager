@@ -15,6 +15,8 @@ info:
 host: localhost:8000
 basePath: /regionmanager/1.0
 
+consumes:
+  - application/json
 produces:
   - application/json
 schemes:
@@ -46,7 +48,7 @@ paths:
       summary: "Add information about a new region."
       operationId: "addRegion"
       parameters:
-        - $ref: "#/parameters/RegionInput"
+        - $ref: '#/parameters/RegionInput'
       responses:
         201:
           description: "Region was successfully created."
@@ -113,8 +115,7 @@ definitions:
         properties:
           id:
             description: "Unique region identifier."
-            type: string
-            format: uuid
+            type: integer
         required:
           - id
 
