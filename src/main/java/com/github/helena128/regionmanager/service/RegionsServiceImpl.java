@@ -3,6 +3,7 @@ package com.github.helena128.regionmanager.service;
 import com.github.helena128.regionmanager.repository.RegionsMybatisMapper;
 import com.github.helena128.regionmanager.service.mapper.RegionsMapstructMapper;
 import com.github.helena128.regionmanager.service.validator.RegionsValidator;
+import io.swagger.model.OperationResultWithRegionList;
 import io.swagger.model.Region;
 import io.swagger.model.RegionInput;
 import lombok.AccessLevel;
@@ -12,6 +13,7 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +40,11 @@ public class RegionsServiceImpl implements RegionsService {
     }
 
     @Override
-    public List<Region> findRegions() {
-        return null;
+    public OperationResultWithRegionList findRegions() {
+        return mybatisMapper.findAllRegions()
+                .stream()
+                .map(mapstructMapper::mapRegionionEntityToRegion)
+                .collect(Collectors.toCollection(OperationResultWithRegionList::new));
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.github.helena128.regionmanager.api;
 
 import com.github.helena128.regionmanager.service.RegionsService;
 import io.swagger.api.RegionsApi;
+import io.swagger.model.OperationResultWithRegionList;
 import io.swagger.model.Region;
 import io.swagger.model.RegionInput;
 import lombok.AccessLevel;
@@ -30,5 +31,10 @@ public class RegionsApiImpl implements RegionsApi {
     @Override
     public ResponseEntity<Region> getRegionById(@PathVariable("id") Integer id) {
         return new ResponseEntity<>(regionsService.findRegion(id), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<OperationResultWithRegionList> getRegions() {
+        return new ResponseEntity<>(regionsService.findRegions(), HttpStatus.OK);
     }
 }

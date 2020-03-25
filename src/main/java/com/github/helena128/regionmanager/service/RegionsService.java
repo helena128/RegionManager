@@ -1,5 +1,6 @@
 package com.github.helena128.regionmanager.service;
 
+import io.swagger.model.OperationResultWithRegionList;
 import io.swagger.model.Region;
 import io.swagger.model.RegionInput;
 
@@ -31,7 +32,7 @@ public interface RegionsService {
      *
      * @return list of regions that were found.
      */
-    List<Region> findRegions();
+    OperationResultWithRegionList findRegions();
 
     /**
      * Removes region by id

@@ -3,6 +3,7 @@ package com.github.helena128.regionmanager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.helena128.regionmanager.repository.RegionsMybatisMapper;
+import io.swagger.model.OperationResultWithRegionList;
 import io.swagger.model.Region;
 import lombok.val;
 import org.junit.Before;
@@ -20,8 +21,7 @@ import static com.github.helena128.regionmanager.util.EndpointHolder.REGIONS_END
 import static com.github.helena128.regionmanager.util.RegionTestUtil.buildRegionEntity;
 import static com.github.helena128.regionmanager.util.RegionTestUtil.buildRegionInput;
 import static com.github.helena128.regionmanager.util.TestRegionPropertiesHolder.*;
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -81,6 +81,27 @@ public class RegionManagerApiTests {
         assertEquals(REGION_1_NAME, resultRegion.getName());
         assertEquals(REGION_1_SHORTNAME, resultRegion.getShortName());
         assertEquals(regionEntityId1.longValue(), resultRegion.getId().longValue());
+    }
+
+    @Test
+    public void shouldFindRegions() throws Exception {
+        // create test data
+        val regionEntity1 = buildRegionEntity(REGION_1_NAME, REGION_1_SHORTNAME);
+        val regionEntity2 = buildRegionEntity(REGION_2_NAME, REGION_2_SHORTNAME);
+        val regionEntityId1 = mybatisMapper.addRegionEntity(regionEntity1);
+        val regionEntityId2 = mybatisMapper.addRegionEntity(regionEntity2);
+
+        // send test request
+        val mockMvcResult = this.mockMvc.perform(
+                get(REGIONS_ENDPOINT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+        val resultList = mapper.readValue(mockMvcResult.getResponse().getContentAsString(), OperationResultWithRegionList.class);
+        assertEquals(2, resultList.size());
+        assertTrue(resultList.stream().anyMatch(region -> regionEntityId1.equals(region.getId().longValue())));
+        assertTrue(resultList.stream().anyMatch(region -> regionEntityId2.equals(region.getId().longValue())));
     }
 
 }
