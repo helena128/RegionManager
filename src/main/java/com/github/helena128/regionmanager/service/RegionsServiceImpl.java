@@ -32,10 +32,9 @@ public class RegionsServiceImpl implements RegionsService {
     }
 
     @Override
-    public Region findRegion(String id) {
+    public Region findRegion(Integer id) {
         regionsValidator.validateRegionExistence(id);
-        //return mapstructMapper.mapRegionionEntityToRegion(mybatisMapper.findRegionById(UUID.fromString(id)));
-        return null;
+        return mapstructMapper.mapRegionionEntityToRegion(mybatisMapper.findRegionEntityById(id.longValue()));
     }
 
     @Override

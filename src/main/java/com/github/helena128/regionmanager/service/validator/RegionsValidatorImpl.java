@@ -22,7 +22,7 @@ public class RegionsValidatorImpl implements RegionsValidator {
     }
 
     @Override
-    public void validateRegionExistence(String id) {
+    public void validateRegionExistence(Integer id) {
         // TODO
     }
 

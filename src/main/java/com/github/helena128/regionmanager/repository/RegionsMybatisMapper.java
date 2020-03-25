@@ -18,4 +18,7 @@ public interface RegionsMybatisMapper {
 
     @Select("SELECT EXISTS (SELECT 1 FROM regions WHERE short_name=#{shortName})")
     boolean checkRegionWithShortNameExists(@Param("shortName") String shortName);
+
+    @Delete("DELETE FROM regions")
+    void removeAllRegions();
 }

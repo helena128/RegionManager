@@ -18,5 +18,5 @@ public interface RegionsValidator {
      * Validates that region exists
      * @param id - ID of the region
      */
-    void validateRegionExistence(String id);
+    void validateRegionExistence(Integer id);
 }

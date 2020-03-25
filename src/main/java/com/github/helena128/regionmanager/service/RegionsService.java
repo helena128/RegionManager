@@ -24,7 +24,7 @@ public interface RegionsService {
      * @param id -region identificator
      * @return region
      */
-    Region findRegion(String id);
+    Region findRegion(Integer id);
 
     /**
      * Retrieves all regions
