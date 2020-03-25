@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -46,6 +47,7 @@ public class RegionManagerApiTests {
     }
 
     @Test
+    @DirtiesContext
     public void shouldCreateRegion() throws Exception {
         val regionInput = buildRegionInput(REGION_1_NAME, REGION_1_SHORTNAME);
         val mockMvcResult = this.mockMvc.perform(
@@ -62,6 +64,7 @@ public class RegionManagerApiTests {
     }
 
     @Test
+    @DirtiesContext
     public void shouldFindRegion() throws Exception {
         // create test data
         val regionEntity1 = buildRegionEntity(REGION_1_NAME, REGION_1_SHORTNAME);
@@ -83,6 +86,7 @@ public class RegionManagerApiTests {
     }
 
     @Test
+    @DirtiesContext
     public void shouldFindRegions() throws Exception {
         // create test data
         val regionEntity1 = buildRegionEntity(REGION_1_NAME, REGION_1_SHORTNAME);
@@ -104,6 +108,7 @@ public class RegionManagerApiTests {
     }
 
     @Test
+    @DirtiesContext
     public void shouldUpdateRegion() throws Exception {
         // create data
         val regionEntity1 = buildRegionEntity(REGION_1_NAME, REGION_1_SHORTNAME);
@@ -125,6 +130,7 @@ public class RegionManagerApiTests {
     }
 
     @Test
+    @DirtiesContext
     public void shouldRemoveById() throws Exception {
         // create data
         val regionEntity1 = buildRegionEntity(REGION_1_NAME, REGION_1_SHORTNAME);
