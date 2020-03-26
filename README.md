@@ -26,3 +26,10 @@ Another way to run this app is to use `mvn spring-boot:run` in the command line.
 
 Also it is possible to run application the following way:\
 ```mvn clean package && java -jar target/regionmanager-1.0-SNAPSHOT.jar```
+
+By default application runs on port `8000` and has base path `/regionmanager/1.0`.
+
+Sample request:
+```
+curl -i -X GET -H "Content-Type: application/json" -H "Accept: application/json" http://localhost:8000/regionmanager/1.0/regions
+```
