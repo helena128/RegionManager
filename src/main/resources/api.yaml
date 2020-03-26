@@ -54,10 +54,6 @@ paths:
           description: "Region was successfully created."
           schema:
             $ref: "#/definitions/Region"
-        #400:
-        #  description: "Invalid input on the client side."
-        #  schema:
-        #    $ref: "#/responses/BadRequest"
         default:
           $ref: "#/responses/Error"
 
