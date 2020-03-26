@@ -34,7 +34,6 @@ public class RegionsValidatorImpl implements RegionsValidator {
     @Override
     public void validateRegionUpdate(Integer id, RegionInput regionInput) {
         validateRegionExistence(id);
-        validateFieldUniqueness(regionInput);
     }
 
     private void validateFieldUniqueness(RegionInput regionInput) {

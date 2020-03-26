@@ -146,4 +146,13 @@ public class RegionManagerApiTests {
         // check db
         assertNull(mybatisMapper.findRegionEntityById(regionEntityId1));
     }
+
+    @Test
+    public void shouldDeleteNonExistentRegion() throws Exception {
+        this.mockMvc.perform(
+                delete(REGIONS_BY_ID_ENDPOINT, "123")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }
