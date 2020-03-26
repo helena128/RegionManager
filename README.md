@@ -23,3 +23,6 @@ To run application locally one can use IDE by executing main method in class
 `com.github.helena128.regionmanager.RegionManagerApplication`.
 
 Another way to run this app is to use `mvn spring-boot:run` in the command line.
+
+Also it is possible to run application the following way:\
+```mvn clean package && java -jar target/regionmanager-1.0-SNAPSHOT.jar```
